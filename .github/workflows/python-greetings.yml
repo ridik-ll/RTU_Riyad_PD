@@ -12,17 +12,18 @@ jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3
-    - name: Create Python hostedtoolcache folder
-      run: sudo mkdir -p /Users/runner/hostedtoolcache/Python && sudo chown -R $(whoami) /Users/runner/hostedtoolcache
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install dependencies
-      run: |
-        sudo python -m pip install --upgrade pip
+    - name: Checkout Main Repository
+      uses: actions/checkout@v3.5.2  # Using a specific version of actions/checkout
 
+    - name: Clone python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: 'python-greetings'  # Cloning into a specific directory
+
+    - name: Install dependencies from python-greetings
+      run: pip3 install -r requirements.txt
+      working-directory: ./python-greetings  # Specifying the working directory
 
   deploy-to-dev:
     needs: install-pip-deps
@@ -30,53 +31,64 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Deploy to Development
-      run: echo "Deploying to development environment..."
+      run: |
+        echo "Deploying to development environment..."
 
   tests-on-dev:
     needs: deploy-to-dev
     runs-on: self-hosted
     steps:
     - name: Run tests in Development
-      run: echo "Running tests in development environment..."
+      run: |
+        echo "Running tests in development environment..."
 
   deploy-to-staging:
     needs: tests-on-dev
     runs-on: self-hosted
     steps:
+    - uses: actions/checkout@v3
     - name: Deploy to Staging
-      run: echo "Deploying to staging environment..."
+      run: |
+        echo "Deploying to staging environment..."
 
   tests-on-staging:
     needs: deploy-to-staging
     runs-on: self-hosted
     steps:
     - name: Run tests in Staging
-      run: echo "Running tests in staging environment..."
+      run: |
+        echo "Running tests in staging environment..."
 
   deploy-to-preprod:
     needs: tests-on-staging
     runs-on: self-hosted
     steps:
+    - uses: actions/checkout@v3
     - name: Deploy to Pre-Production
-      run: echo "Deploying to pre-production environment..."
+      run: |
+        echo "Deploying to pre-production environment..."
 
   tests-on-preprod:
     needs: deploy-to-preprod
     runs-on: self-hosted
     steps:
     - name: Run tests in Pre-Production
-      run: echo "Running tests in pre-production environment..."
+      run: |
+        echo "Running tests in pre-production environment..."
 
   deploy-to-prod:
     needs: tests-on-preprod
     runs-on: self-hosted
     steps:
+    - uses: actions/checkout@v3
     - name: Deploy to Production
-      run: echo "Deploying to production environment..."
+      run: |
+        echo "Deploying to production environment..."
 
   tests-on-prod:
     needs: deploy-to-prod
     runs-on: self-hosted
     steps:
     - name: Run tests in Production
-      run: echo "Running tests in production environment..."
+      run: |
+        echo "Running tests in production environment..."
