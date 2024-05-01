@@ -13,82 +13,88 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Checkout Main Repository
-      uses: actions/checkout@v3.5.2  # Using a specific version of actions/checkout
-
+      uses: actions/checkout@v3.5.2
     - name: Clone python-greetings repository
       uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/python-greetings
-        path: 'python-greetings'  # Cloning into a specific directory
-
-    - name: Install dependencies from python-greetings
-      run: pip3 install -r requirements.txt
-      working-directory: ./python-greetings  # Specifying the working directory
+        path: python-greetings
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install dependencies
+      run: sudo pip3 install -r python-greetings/requirements.txt
 
   deploy-to-dev:
     needs: install-pip-deps
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3
-    - name: Deploy to Development
-      run: |
-        echo "Deploying to development environment..."
+    - name: Checkout Main Repository
+      uses: actions/checkout@v3.5.2
+    - name: Clone python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Stop existing service
+      run: pm2 delete greetings-app-dev || true
+      working-directory: ./python-greetings
+    - name: Start service on port 7001
+      run: pm2 start app.js --name greetings-app-dev -- 7001
+      working-directory: ./python-greetings
 
-  tests-on-dev:
+  deploy-to-staging:
     needs: deploy-to-dev
     runs-on: self-hosted
     steps:
-    - name: Run tests in Development
-      run: |
-        echo "Running tests in development environment..."
+    - name: Checkout Main Repository
+      uses: actions/checkout@v3.5.2
+    - name: Clone python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Stop existing service
+      run: pm2 delete greetings-app-staging || true
+      working-directory: ./python-greetings
+    - name: Start service on port 7002
+      run: pm2 start app.js --name greetings-app-staging -- 7002
+      working-directory: ./python-greetings
 
-  deploy-to-staging:
-    needs: tests-on-dev
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v3
-    - name: Deploy to Staging
-      run: |
-        echo "Deploying to staging environment..."
-
-  tests-on-staging:
+  deploy-to-preprod:
     needs: deploy-to-staging
     runs-on: self-hosted
     steps:
-    - name: Run tests in Staging
-      run: |
-        echo "Running tests in staging environment..."
+    - name: Checkout Main Repository
+      uses: actions/checkout@v3.5.2
+    - name: Clone python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Stop existing service
+      run: pm2 delete greetings-app-preprod || true
+      working-directory: ./python-greetings
+    - name: Start service on port 7003
+      run: pm2 start app.js --name greetings-app-preprod -- 7003
+      working-directory: ./python-greetings
 
-  deploy-to-preprod:
-    needs: tests-on-staging
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v3
-    - name: Deploy to Pre-Production
-      run: |
-        echo "Deploying to pre-production environment..."
-
-  tests-on-preprod:
+  deploy-to-prod:
     needs: deploy-to-preprod
     runs-on: self-hosted
     steps:
-    - name: Run tests in Pre-Production
-      run: |
-        echo "Running tests in pre-production environment..."
-
-  deploy-to-prod:
-    needs: tests-on-preprod
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v3
-    - name: Deploy to Production
-      run: |
-        echo "Deploying to production environment..."
-
-  tests-on-prod:
-    needs: deploy-to-prod
-    runs-on: self-hosted
-    steps:
-    - name: Run tests in Production
-      run: |
-        echo "Running tests in production environment..."
+    - name: Checkout Main Repository
+      uses: actions/checkout@v3.5.2
+    - name: Clone python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Stop existing service
+      run: pm2 delete greetings-app-prod || true
+      working-directory: ./python-greetings
+    - name: Start service on port 7004
+      run: pm2 start app.js --name greetings-app-prod -- 7004
+      working-directory: ./python-greetings
