@@ -12,91 +12,131 @@ jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
-    - name: Checkout Main Repository
-      uses: actions/checkout@v3.5.2
-    - name: Clone python-greetings repository
-      uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Install dependencies
-      run: sudo pip3 install -r python-greetings/requirements.txt
-    - name: Install PM2
-      run: sudo npm install -g pm2
+    - run: sudo pip3 install -r python-greetings/requirements.txt
+    - run: sudo npm install -g pm2
 
   deploy-to-dev:
     needs: install-pip-deps
     runs-on: self-hosted
     steps:
-    - name: Checkout Main Repository
-      uses: actions/checkout@v3.5.2
-    - name: Clone python-greetings repository
-      uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Stop existing service
-      run: pm2 delete greetings-app-dev || true
+    - run: pm2 delete greetings-app-dev || true
       working-directory: ./python-greetings
-    - name: Start service on port 7001
-      run: pm2 start app.py --name greetings-app-dev -- 7001
+    - run: pm2 start app.py --name greetings-app-dev -- 7001
       working-directory: ./python-greetings
 
-  deploy-to-staging:
+  tests-on-dev:
     needs: deploy-to-dev
     runs-on: self-hosted
     steps:
-    - name: Checkout Main Repository
-      uses: actions/checkout@v3.5.2
-    - name: Clone python-greetings repository
-      uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm install
+      working-directory: ./course-js-api-framework
+    - run: npm run greetings_dev
+      working-directory: ./course-js-api-framework
+
+  deploy-to-staging:
+    needs: tests-on-dev
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Stop existing service
-      run: pm2 delete greetings-app-staging || true
+    - run: pm2 delete greetings-app-staging || true
       working-directory: ./python-greetings
-    - name: Start service on port 7002
-      run: pm2 start app.py --name greetings-app-staging -- 7002
+    - run: pm2 start app.py --name greetings-app-staging -- 7002
       working-directory: ./python-greetings
 
-  deploy-to-preprod:
+  tests-on-staging:
     needs: deploy-to-staging
     runs-on: self-hosted
     steps:
-    - name: Checkout Main Repository
-      uses: actions/checkout@v3.5.2
-    - name: Clone python-greetings repository
-      uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm install
+      working-directory: ./course-js-api-framework
+    - run: npm run greetings_staging
+      working-directory: ./course-js-api-framework
+
+  deploy-to-preprod:
+    needs: tests-on-staging
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Stop existing service
-      run: pm2 delete greetings-app-preprod || true
+    - run: pm2 delete greetings-app-preprod || true
       working-directory: ./python-greetings
-    - name: Start service on port 7003
-      run: pm2 start app.py --name greetings-app-preprod -- 7003
+    - run: pm2 start app.py --name greetings-app-preprod -- 7003
       working-directory: ./python-greetings
 
-  deploy-to-prod:
+  tests-on-preprod:
     needs: deploy-to-preprod
     runs-on: self-hosted
     steps:
-    - name: Checkout Main Repository
-      uses: actions/checkout@v3.5.2
-    - name: Clone python-greetings repository
-      uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm install
+      working-directory: ./course-js-api-framework
+    - run: npm run greetings_preprod
+      working-directory: ./course-js-api-framework
+
+  deploy-to-prod:
+    needs: tests-on-preprod
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Stop existing service
-      run: pm2 delete greetings-app-prod || true
+    - run: pm2 delete greetings-app-prod || true
       working-directory: ./python-greetings
-    - name: Start service on port 7004
-      run: pm2 start app.py --name greetings-app-prod -- 7004
+    - run: pm2 start app.py --name greetings-app-prod -- 7004
       working-directory: ./python-greetings
+
+  tests-on-prod:
+    needs: deploy-to-prod
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm install
+      working-directory: ./course-js-api-framework
+    - run: npm run greetings_prod
+      working-directory: ./course-js-api-framework
