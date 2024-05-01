@@ -22,6 +22,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install dependencies
       run: sudo pip3 install -r python-greetings/requirements.txt
+    - name: Install PM2
+      run: sudo npm install -g pm2
 
   deploy-to-dev:
     needs: install-pip-deps
