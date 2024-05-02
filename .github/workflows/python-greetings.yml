@@ -62,8 +62,12 @@ jobs:
       working-directory: ./course-js-api-framework
     - name: Run tests
       run: |
+        export NODE_ENV=greetings_dev
+        echo "Environment: $NODE_ENV"
         npm run greetings
       working-directory: ./course-js-api-framework
+      env:
+        API_HOST: http://localhost:7001
 
   deploy-to-staging:
     needs: tests-on-dev
