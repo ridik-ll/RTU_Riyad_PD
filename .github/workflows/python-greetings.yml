@@ -41,7 +41,6 @@ jobs:
       run: |
         pm2 delete greetings-app-dev || true
         pm2 start app.py --name greetings-app-dev -- --port 7001
-        pm2 logs greetings-app-dev
       working-directory: ./python-greetings
 
   tests-on-dev:
