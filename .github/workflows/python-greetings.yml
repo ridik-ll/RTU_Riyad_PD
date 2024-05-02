@@ -46,8 +46,6 @@ jobs:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm install
-      working-directory: ./course-js-api-framework
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -76,8 +74,7 @@ jobs:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm install
-      working-directory: ./course-js-api-framework
+    
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -106,8 +103,7 @@ jobs:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm install
-      working-directory: ./course-js-api-framework
+    
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -136,7 +132,6 @@ jobs:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm install
-      working-directory: ./course-js-api-framework
+    
     - run: npm run greetings
       working-directory: ./course-js-api-framework
