@@ -60,6 +60,10 @@ jobs:
         npm install mocha --no-save
         npm install
       working-directory: ./course-js-api-framework
+    - name: List test files
+      run: ls -al tests/scenarios/greetings/
+      working-directory: ./course-js-api-framework
+
     - name: Run tests
       run: |
         export NODE_ENV=greetings_dev
