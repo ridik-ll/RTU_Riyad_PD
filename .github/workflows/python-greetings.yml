@@ -111,7 +111,7 @@ jobs:
     - name: Run tests
       run: |
         export API_HOST=http://localhost:7002
-        npm run greetings
+        npm run greetings greetings_dev
       working-directory: ./course-js-api-framework
 
   deploy-to-preprod:
