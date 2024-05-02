@@ -47,7 +47,7 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save
+        npm install mocha --no-save --force
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -77,7 +77,7 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save
+        npm install mocha --no-save --force
     
     - run: npm run greetings
       working-directory: ./course-js-api-framework
@@ -108,7 +108,7 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save
+        npm install mocha --no-save --force
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -138,6 +138,6 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save
+        npm install mocha --no-save --force
     - run: npm run greetings
       working-directory: ./course-js-api-framework
