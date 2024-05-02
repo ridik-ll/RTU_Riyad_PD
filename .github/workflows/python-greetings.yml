@@ -50,6 +50,7 @@ jobs:
       with:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
+        ref: '6b2b9ac08c990a598d83178bff195968b7abf2dd'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup testing environment
       run: |
