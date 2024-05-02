@@ -52,7 +52,9 @@ jobs:
         npm install mocha --no-save
         npm install
       working-directory: ./course-js-api-framework
-    - run: npm run test-greetings
+    - run: 
+        npm run greetings
+        export API_HOST=http://localhost:7001
       working-directory: ./course-js-api-framework
 
   deploy-to-staging:
@@ -86,7 +88,7 @@ jobs:
         npm install mocha --no-save
         npm install
       working-directory: ./course-js-api-framework
-    - run: npm run test-greetings
+    - run: npm run greetings
       working-directory: ./course-js-api-framework
 
   deploy-to-preprod:
@@ -120,7 +122,7 @@ jobs:
         npm install mocha --no-save
         npm install
       working-directory: ./course-js-api-framework
-    - run: npm run test-greetings
+    - run: npm run greetings
       working-directory: ./course-js-api-framework
 
   deploy-to-prod:
@@ -154,5 +156,5 @@ jobs:
         npm install mocha --no-save
         npm install
       working-directory: ./course-js-api-framework
-    - run: npm run test-greetings
+    - run: npm run greetings
       working-directory: ./course-js-api-framework
