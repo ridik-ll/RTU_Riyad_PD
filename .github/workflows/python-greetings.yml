@@ -51,19 +51,17 @@ jobs:
       with:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
-        ref: '6b2b9ac08c990a598d83178bff195968b7abf2dd'
+        fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup testing environment
       run: |
         sudo chown -R $(whoami) ~/.npm
         sudo npm cache clean --force
         npm install mocha --no-save
-        export NODE_ENV=greetings_dev
         npm install
       working-directory: ./course-js-api-framework
     - name: Run tests
       run: |
-        export API_HOST=http://localhost:7001
         npm run greetings
       working-directory: ./course-js-api-framework
 
