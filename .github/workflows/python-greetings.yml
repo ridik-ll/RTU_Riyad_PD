@@ -12,96 +12,174 @@ jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Checkout Repository
-    - run: |
-        echo "Installing all required dependencies..."
-        sudo pip3 install -r requirements.txt
+    - name: Checkout python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        ref: '5702da3'
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install Python dependencies
+      run: sudo pip3 install -r python-greetings/requirements.txt
+    - name: Install PM2
+      run: sudo npm install -g pm2
 
   deploy-to-dev:
     needs: install-pip-deps
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Deploy to Development Environment
-    - run: |
-        echo "Deploying to development environment..."
+    - name: Checkout python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        ref: '5702da3'
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to Development Environment
+      run: |
         pm2 delete greetings-app-dev || true
-        pm2 start app.py --name greetings-app-dev -- 7001
+        pm2 start app.py --name greetings-app-dev -- --port 7001
+      working-directory: ./python-greetings
 
   tests-on-dev:
     needs: deploy-to-dev
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Run Tests on Development Environment
-    - run: |
-        echo "Running tests on development environment..."
+    - name: Checkout course-js-api-framework repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup testing environment
+      run: |
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
         npm install
-        npm run greetings_dev
+      working-directory: ./course-js-api-framework
+    - name: Run tests
+      run: |
+        export API_HOST=http://localhost:7001
+        npm run greetings
+      working-directory: ./course-js-api-framework
 
   deploy-to-staging:
     needs: tests-on-dev
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Deploy to Staging Environment
-    - run: |
-        echo "Deploying to staging environment..."
+    - name: Checkout python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        ref: '5702da3'
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to Staging Environment
+      run: |
         pm2 delete greetings-app-staging || true
-        pm2 start app.py --name greetings-app-staging -- 7002
+        pm2 start app.py --name greetings-app-staging -- --port 7002
+      working-directory: ./python-greetings
 
   tests-on-staging:
     needs: deploy-to-staging
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Run Tests on Staging Environment
-    - run: |
-        echo "Running tests on staging environment..."
+    - name: Checkout course-js-api-framework repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup testing environment
+      run: |
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
         npm install
-        npm run greetings_staging
+      working-directory: ./course-js-api-framework
+    - name: Run tests
+      run: |
+        export API_HOST=http://localhost:7002
+        npm run greetings
+      working-directory: ./course-js-api-framework
 
   deploy-to-preprod:
     needs: tests-on-staging
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Deploy to Pre-production Environment
-    - run: |
-        echo "Deploying to pre-production environment..."
+    - name: Checkout python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        ref: '5702da3'
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to Pre-production Environment
+      run: |
         pm2 delete greetings-app-preprod || true
-        pm2 start app.py --name greetings-app-preprod -- 7003
+        pm2 start app.py --name greetings-app-preprod -- --port 7003
+      working-directory: ./python-greetings
 
   tests-on-preprod:
     needs: deploy-to-preprod
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Run Tests on Pre-production Environment
-    - run: |
-        echo "Running tests on pre-production environment..."
+    - name: Checkout course-js-api-framework repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup testing environment
+      run: |
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
         npm install
-        npm run greetings_preprod
+      working-directory: ./course-js-api-framework
+    - name: Run tests
+      run: |
+        export API_HOST=http://localhost:7003
+        npm run greetings
+      working-directory: ./course-js-api-framework
 
   deploy-to-prod:
     needs: tests-on-preprod
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Deploy to Production Environment
-    - run: |
-        echo "Deploying to production environment..."
+    - name: Checkout python-greetings repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+        ref: '5702da3'
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to Production Environment
+      run: |
         pm2 delete greetings-app-prod || true
-        pm2 start app.py --name greetings-app-prod -- 7004
+        pm2 start app.py --name greetings-app-prod -- --port 7004
+      working-directory: ./python-greetings
 
   tests-on-prod:
     needs: deploy-to-prod
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3.5.2
-      name: Run Tests on Production Environment
-    - run: |
-        echo "Running tests on production environment..."
+    - name: Checkout course-js-api-framework repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup testing environment
+      run: |
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
         npm install
-        npm run greetings_prod
+      working-directory: ./course-js-api-framework
+    - name: Run tests
+      run: |
+        export API_HOST=http://localhost:7004
+        npm run greetings
+      working-directory: ./course-js-api-framework
