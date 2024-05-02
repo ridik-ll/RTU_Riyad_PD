@@ -17,7 +17,7 @@ jobs:
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
-        ref: '5702da3'
+        ref: '4e911440a9886c7c26ccbb4eb55f0bc2a5067b51'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install Python dependencies
       run: sudo pip3 install -r python-greetings/requirements.txt
@@ -33,7 +33,7 @@ jobs:
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
-        ref: '5702da3'
+        ref: '4e911440a9886c7c26ccbb4eb55f0bc2a5067b51'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Deploy to Development Environment
       run: |
@@ -73,7 +73,7 @@ jobs:
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
-        ref: '5702da3'
+        ref: '4e911440a9886c7c26ccbb4eb55f0bc2a5067b51'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Deploy to Staging Environment
       run: |
@@ -113,7 +113,7 @@ jobs:
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
-        ref: '5702da3'
+        ref: '4e911440a9886c7c26ccbb4eb55f0bc2a5067b51'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Deploy to Pre-production Environment
       run: |
@@ -153,7 +153,7 @@ jobs:
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
-        ref: '5702da3'
+        ref: '4e911440a9886c7c26ccbb4eb55f0bc2a5067b51'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Deploy to Production Environment
       run: |
