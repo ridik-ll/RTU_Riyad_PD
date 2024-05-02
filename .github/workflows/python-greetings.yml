@@ -56,6 +56,7 @@ jobs:
         sudo chown -R $(whoami) ~/.npm
         sudo npm cache clean --force
         npm install mocha --no-save
+        export NODE_ENV=greetings_dev
         npm install
       working-directory: ./course-js-api-framework
     - name: Run tests
@@ -96,6 +97,7 @@ jobs:
         sudo chown -R $(whoami) ~/.npm
         sudo npm cache clean --force
         npm install mocha --no-save
+        export NODE_ENV=greetings_stg
         npm install
       working-directory: ./course-js-api-framework
     - name: Run tests
@@ -176,6 +178,7 @@ jobs:
         sudo chown -R $(whoami) ~/.npm
         sudo npm cache clean --force
         npm install mocha --no-save
+        export NODE_ENV=greetings_prod
         npm install
       working-directory: ./course-js-api-framework
     - name: Run tests
