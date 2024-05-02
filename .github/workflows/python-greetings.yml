@@ -48,7 +48,7 @@ jobs:
         pm2 status
       working-directory: ./python-greetings
     - name: Check server status
-      run: curl http://:7001/greetings
+      run: curl http://localhost:7001
       working-directory: ./python-greetings
 
 
