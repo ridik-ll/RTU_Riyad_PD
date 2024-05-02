@@ -61,7 +61,7 @@ jobs:
         npm install
       working-directory: ./course-js-api-framework
     - name: Check server status
-      run: curl http://localhost:7001/greetings
+      run: curl http://localhost:7001
       working-directory: ./course-js-api-framework
 
     - name: Run tests
