@@ -48,7 +48,7 @@ jobs:
         pm2 status
       working-directory: ./python-greetings
     - name: Check server status
-      run: curl http://localhost:7001/greetings
+      run: curl http://:7001/greetings
       working-directory: ./python-greetings
 
 
@@ -161,7 +161,7 @@ jobs:
     - name: Run tests
       run: |
         export API_HOST=http://localhost:7003
-        npm run greetings
+        npm run greetings greetings_dev
       working-directory: ./course-js-api-framework
 
   deploy-to-prod:
@@ -202,5 +202,5 @@ jobs:
     - name: Run tests
       run: |
         export API_HOST=http://localhost:7004
-        npm run greetings
+        npm run greetings greetings_dev
       working-directory: ./course-js-api-framework
