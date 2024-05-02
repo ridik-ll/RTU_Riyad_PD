@@ -60,8 +60,8 @@ jobs:
         npm install mocha --no-save
         npm install
       working-directory: ./course-js-api-framework
-    - name: List test files
-      run: ls -al tests/scenarios/greetings/
+    - name: Check server status
+      run: curl http://localhost:7001/greetings
       working-directory: ./course-js-api-framework
 
     - name: Run tests
