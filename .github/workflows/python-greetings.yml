@@ -40,7 +40,8 @@ jobs:
     - name: Deploy to Development Environment
       run: |
         pm2 delete greetings-app-dev || true
-        pm2 start app.py --name greetings-app-dev -- --port 7001
+        pm2 start app.py --name greetings-app-dev --interpreter python3 -- --port 7001
+
       working-directory: ./python-greetings
     - name: Verify Application Start
       run: |
