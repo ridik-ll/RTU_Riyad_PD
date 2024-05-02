@@ -47,7 +47,11 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save --force
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
+        npm install
+      working-directory: ./course-js-api-framework
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -77,8 +81,11 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save --force
-    
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
+        npm install
+      working-directory: ./course-js-api-framework
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -108,7 +115,11 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save --force
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
+        npm install
+      working-directory: ./course-js-api-framework
     - run: npm run greetings
       working-directory: ./course-js-api-framework
 
@@ -138,6 +149,10 @@ jobs:
         path: course-js-api-framework
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: |
-        npm install mocha --no-save --force
+        sudo chown -R $(whoami) ~/.npm
+        sudo npm cache clean --force
+        npm install mocha --no-save
+        npm install
+      working-directory: ./course-js-api-framework
     - run: npm run greetings
       working-directory: ./course-js-api-framework
